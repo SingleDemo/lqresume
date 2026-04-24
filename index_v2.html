@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>李琪 LIQI — 视觉设计师作品集</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23181E25'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='55' font-weight='900' fill='%23fff' font-family='Inter'%3EL%3C/text%3E%3C/svg%3E">
+  <script src="https://static.cloudbase.net/cloudbase-js-sdk/latest/cloudbase.full.js"></script>
+  <style>
+    /* ========== RESET & ROOT ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    :root {
+      --bg: #ffffff;
+      --bg-sec: #F7F8FA;
+      --surface: #ffffff;
+      --surface-hover: #F7F8FA;
+      --border: #F2F3F5;
+      --border-hover: #E5E7EB;
+      --text: #181E25;
+      --text-2: #5C6370;
+      --text-muted: #AAB1BA;
+      --accent: #181E25;
+      --accent-blue: #1a73e8;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(24,30,37,0.08); color: var(--text); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+    a { color: var(--accent-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; display: block; }
+
+    /* ========== NAVIGATION ========== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 60px; height: 78px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s var(--ease);
+    }
+    .nav-logo {
+      font-size: 18px; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--text); display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      font-size: 15px; font-weight: 400; color: var(--text);
+      padding: 8px 16px; border-radius: var(--radius-xl);
+      transition: background 0.3s var(--ease); text-decoration: none;
+    }
+    .nav-links a:hover { background: var(--surface-hover); }
+    .nav-cta {
+      font-size: 15px; font-weight: 500; color: #fff;
+      background: var(--accent); padding: 8px 28px;
+      border-radius: var(--radius-xl); text-decoration: none;
+      transition: all 0.3s var(--ease);
+    }
+    .nav-cta:hover { background: #2a2f38; text-decoration: none; }
+    .nav-mobile-btn {
+      display: none; background: none; border: none; cursor: pointer;
+      width: 24px; height: 18px; position: relative;
+    }
+    .nav-mobile-btn span {
+      display: block; width: 100%; height: 2px; background: var(--text);
+      position: absolute; left: 0; transition: all 0.3s var(--ease);
+    }
+    .nav-mobile-btn span:nth-child(1) { top: 0; }
+    .nav-mobile-btn span:nth-child(2) { top: 8px; }
+    .nav-mobile-btn span:nth-child(3) { top: 16px; }
+
+    /* ========== HERO ========== */
+    #hero {
+      position: relative; width: 100%; height: 100vh; min-height: 700px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: var(--bg);
+      margin-bottom: 0;
+    }
+    .hero-bg-dots {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px; opacity: 0.5;
+    }
+    /* Circular Carousel */
+    .carousel-container {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 20vh;
+      pointer-events: none;
+    }
+    .carousel-card {
+      position: absolute; width: 200px; height: 140px;
+      border-radius: var(--radius-md); overflow: hidden;
+      cursor: pointer; pointer-events: auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      will-change: transform, opacity;
+      transition: box-shadow 0.3s var(--ease), opacity 0.3s;
+    }
+    .carousel-card:hover { box-shadow: 0 12px 48px rgba(0,0,0,0.18) !important; }
+    .carousel-card img, .carousel-card video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .carousel-card .card-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 12px; font-size: 11px; font-weight: 500; color: #fff;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    }
+    /* Hero center content */
+    .hero-center {
+      position: relative; z-index: 5; text-align: center;
+      pointer-events: none; padding: 0 20px;
+      margin-top: -6vh;
+    }
+    .hero-center > * { pointer-events: auto; }
+    .hero-eyebrow {
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', 'Noto Sans SC', serif;
+      font-size: clamp(36px, 5vw, 64px); font-weight: 700;
+      line-height: 1.15; margin-bottom: 8px; color: var(--text);
+    }
+    .hero-name-en { font-size: clamp(14px, 1.5vw, 18px); font-weight: 400; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 20px; }
+    .hero-desc {
+      font-size: 15px; color: var(--text-2); max-width: 480px;
+      margin: 0 auto 28px; line-height: 1.8;
+    }
+    .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .hero-tag {
+      font-size: 12px; font-weight: 500; color: var(--text-2);
+      padding: 6px 14px; border-radius: var(--radius-xl);
+      background: var(--bg-sec); border: 1px solid var(--border);
+      transition: all 0.3s var(--ease);
+    }
+    .hero-tag:hover { background: var(--text); color: #fff; border-color: var(--text); }
+    .hero-cta-row { display: flex; justify-content: center; gap: 12px; }
+    .hero-cta {
+      font-size: 15px; font-weight: 500; color: #fff;
+      background: var(--accent); padding: 12px 32px;
+      border-radius: var(--radius-xl); text-decoration: none;
+      transition: all 0.3s var(--ease);
+    }
+    .hero-cta:hover { background: #2a2f38; text-decoration: none; transform: translateY(-1px); }
+    .hero-cta-outline {
+      font-size: 15px; font-weight: 500; color: var(--text);
+      padding: 12px 32px; border-radius: var(--radius-xl);
+      border: 1px solid var(--border-hover); text-decoration: none;
+      transition: all 0.3s var(--ease);
+    }
+    .hero-cta-outline:hover { background: var(--bg-sec); text-decoration: none; }
+
+    /* ========== STATS ========== */
+    #stats {
+      display: flex; justify-content: center; gap: 0;
+      padding: 60px 40px; background: var(--bg);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      flex: 1; max-width: 240px; text-align: center;
+      padding: 0 32px; position: relative;
+    }
+    .stat-item:not(:last-child)::after {
+      content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      width: 1px; height: 48px; background: var(--border);
+    }
+    .stat-num { font-size: 36px; font-weight: 700; color: var(--text); line-height: 1.2; }
+    .stat-label { font-size: 14px; font-weight: 500; color: var(--text-2); margin-top: 4px; }
+    .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ========== SECTION COMMON ========== */
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-tag {
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', 'Noto Sans SC', serif;
+      font-size: clamp(28px, 3.5vw, 42px); font-weight: 700;
+      line-height: 1.3; color: var(--text);
+    }
+    .section-title .accent { color: var(--accent-blue); }
+
+    /* ========== WORKS ========== */
+    #works { padding: 80px 60px; max-width: 1400px; margin: 0 auto; }
+    .filter-bar {
+      display: flex; justify-content: center; gap: 6px;
+      margin-bottom: 40px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-size: 14px; font-weight: 500; color: var(--text-2);
+      padding: 8px 20px; border-radius: var(--radius-xl);
+      border: none; background: var(--bg-sec); cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .filter-btn:hover { background: var(--border-hover); }
+    .filter-btn.active { background: var(--accent); color: #fff; }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .work-card {
+      position: relative; border-radius: var(--radius-md);
+      overflow: hidden; cursor: pointer;
+      background: var(--bg-sec);
+      transition: all 0.4s var(--ease);
+      border: 1px solid var(--border);
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      border-color: var(--border-hover);
+    }
+    .work-card.wide { grid-column: span 2; }
+    .work-thumb {
+      width: 100%; aspect-ratio: 4/3; overflow: hidden; position: relative;
+    }
+    .work-card.wide .work-thumb { aspect-ratio: 16/9; }
+    .work-thumb img, .work-thumb video {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+    .work-card:hover .work-thumb img,
+    .work-card:hover .work-thumb video { transform: scale(1.04); }
+    .work-thumb .video-badge {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 18px; color: var(--text);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .work-info { padding: 16px 20px; }
+    .work-cat {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;
+    }
+    .work-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .work-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+    .work-meta {
+      display: flex; gap: 12px; padding: 0 20px 16px;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .work-meta span::before { content: ''; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--text-muted); margin-right: 6px; vertical-align: middle; }
+
+    /* ========== ABOUT ========== */
+    #about {
+      padding: 80px 60px; background: var(--bg-sec);
+    }
+    .about-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .about-bio {
+      font-size: 15px; color: var(--text-2); line-height: 1.9;
+    }
+    .about-bio strong { color: var(--text); font-weight: 600; }
+    .about-highlights {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .hl-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 24px;
+      transition: all 0.3s var(--ease);
+    }
+    .hl-card:hover { border-color: var(--border-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .hl-icon { font-size: 24px; margin-bottom: 10px; }
+    .hl-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .hl-card p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    /* ========== SKILLS ========== */
+    #skills { padding: 80px 60px; }
+    .skills-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .skill-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
+    .skill-tag {
+      font-size: 14px; font-weight: 500; color: var(--text-2);
+      padding: 10px 22px; border-radius: var(--radius-xl);
+      background: var(--bg-sec); border: 1px solid var(--border);
+      transition: all 0.3s var(--ease);
+    }
+    .skill-tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ========== CONTACT ========== */
+    #contact {
+      padding: 80px 60px; background: var(--accent); color: #fff;
+    }
+    .contact-inner {
+      max-width: 800px; margin: 0 auto; text-align: center;
+    }
+    .contact-inner .section-tag { color: rgba(255,255,255,0.5); }
+    .contact-inner .section-title { color: #fff; }
+    .contact-desc { font-size: 15px; color: rgba(255,255,255,0.7); margin: 16px 0 32px; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; color: #fff;
+      padding: 12px 24px; border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-decoration: none; transition: all 0.3s var(--ease);
+    }
+    .contact-link:hover { background: rgba(255,255,255,0.1); text-decoration: none; }
+    .contact-link svg { width: 18px; height: 18px; }
+
+    /* ========== LIGHTBOX ========== */
+    .lb-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);
+      display: none; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s var(--ease);
+    }
+    .lb-overlay.show { display: flex; opacity: 1; }
+    .lb-content { max-width: 90vw; max-height: 85vh; position: relative; }
+    .lb-content img, .lb-content video {
+      max-width: 90vw; max-height: 80vh; object-fit: contain;
+      border-radius: var(--radius-md);
+    }
+    .lb-close {
+      position: absolute; top: -48px; right: 0;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none;
+      color: #fff; font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.2); }
+    .lb-info {
+      text-align: center; margin-top: 16px; color: rgba(255,255,255,0.8);
+    }
+    .lb-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+    .lb-info p { font-size: 14px; }
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none;
+      color: #fff; font-size: 22px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.2); }
+    .lb-prev { left: -60px; }
+    .lb-next { right: -60px; }
+
+    /* ========== FOOTER ========== */
+    footer {
+      padding: 40px 60px; text-align: center;
+      font-size: 13px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ========== REVEAL ANIMATION ========== */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      nav { padding: 0 32px; }
+      .nav-links { display: none; }
+      .nav-mobile-btn { display: block; }
+      #works { padding: 60px 32px; }
+      .works-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+      .work-card.wide { grid-column: span 1; }
+      .about-inner { grid-template-columns: 1fr; gap: 40px; }
+      #about, #skills, #contact { padding: 60px 32px; }
+      .carousel-card { width: 160px; height: 110px; }
+      .lb-prev { left: -48px; }
+      .lb-next { right: -48px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; height: 60px; }
+      #hero { min-height: 100vh; }
+      .hero-name { font-size: 32px; }
+      .carousel-card { width: 110px; height: 78px; }
+      .carousel-card .card-label { font-size: 9px; padding: 4px 8px; }
+      #stats { flex-wrap: wrap; gap: 24px; padding: 40px 20px; }
+      .stat-item { min-width: 120px; }
+      .stat-item::after { display: none; }
+      #works { padding: 48px 16px; }
+      .works-grid { grid-template-columns: 1fr; gap: 12px; }
+      .about-highlights { grid-template-columns: 1fr; }
+      .lb-prev { left: 8px; }
+      .lb-next { right: 8px; }
+      .lb-nav { width: 40px; height: 40px; }
+      footer { padding: 32px 20px; }
+    }
+
+    /* ========== MOBILE NAV DRAWER ========== */
+    .mobile-drawer {
+      position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+      background: var(--bg); z-index: 200; padding: 80px 24px 32px;
+      transition: right 0.4s var(--ease);
+      box-shadow: -8px 0 30px rgba(0,0,0,0.08);
+    }
+    .mobile-drawer.open { right: 0; }
+    .mobile-drawer a {
+      display: block; font-size: 18px; font-weight: 500; color: var(--text);
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .mobile-drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+      z-index: 199; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .mobile-drawer-overlay.show { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-logo">LQI <span>portfolio</span></div>
+  <div class="nav-links">
+    <a href="#hero">首页</a>
+    <a href="#works">作品集</a>
+    <a href="#about">关于</a>
+    <a href="#skills">技能</a>
+    <a href="#contact">联系</a>
+  </div>
+  <a href="#contact" class="nav-cta">联系我</a>
+  <button class="nav-mobile-btn" onclick="toggleDrawer()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#hero" onclick="toggleDrawer()">首页</a>
+  <a href="#works" onclick="toggleDrawer()">作品集</a>
+  <a href="#about" onclick="toggleDrawer()">关于</a>
+  <a href="#skills" onclick="toggleDrawer()">技能</a>
+  <a href="#contact" onclick="toggleDrawer()">联系</a>
+</div>
+
+<!-- HERO with Circular Carousel -->
+<section id="hero">
+  <div class="hero-bg-dots"></div>
+  <div class="carousel-container" id="carouselContainer"></div>
+  <div class="hero-center">
+    <div class="hero-eyebrow">Visual Designer</div>
+    <h1 class="hero-name">李琪</h1>
+    <div class="hero-name-en">LIQI — Visual Designer</div>
+    <p class="hero-desc">
+      环境设计出身，3年视觉设计与市场运营经验。<br>
+      用设计连接视觉与商业，从平面到视频，从线上到展会。
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag">品牌视觉设计</span>
+      <span class="hero-tag">UI 设计</span>
+      <span class="hero-tag">摄影摄像</span>
+      <span class="hero-tag">视频制作</span>
+      <span class="hero-tag">AI 辅助设计</span>
+      <span class="hero-tag">展会视觉</span>
+    </div>
+    <div class="hero-cta-row">
+      <a href="#works" class="hero-cta">查看作品集</a>
+      <a href="#contact" class="hero-cta-outline">联系我</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stat-item reveal">
+    <div class="stat-num">3+</div>
+    <div class="stat-label">年设计经验</div>
+    <div class="stat-sub">全职设计岗</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">100+</div>
+    <div class="stat-label">视觉物料产出</div>
+    <div class="stat-sub">平面 / 物料 / 图文</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">5W+</div>
+    <div class="stat-label">视频累计播放</div>
+    <div class="stat-sub">宣传片 / 展会快剪</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">5场</div>
+    <div class="stat-label">展会视觉统筹</div>
+    <div class="stat-sub">策划到落地执行</div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-header reveal">
+    <div class="section-tag">Selected Works</div>
+    <h2 class="section-title">精选 <span class="accent">作品集</span></h2>
+  </div>
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-filter="all">全部</button>
+    <button class="filter-btn" data-filter="brand">品牌视觉</button>
+    <button class="filter-btn" data-filter="space">展陈空间</button>
+    <button class="filter-btn" data-filter="video">视频制作</button>
+    <button class="filter-btn" data-filter="ui">UI 设计</button>
+    <button class="filter-btn" data-filter="photo">摄影</button>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-tag">About Me</div>
+    <h2 class="section-title">关于 <span class="accent">我</span></h2>
+  </div>
+  <div class="about-inner">
+    <div class="about-bio reveal">
+      <p>2023 年毕业于重庆工商大学环境设计专业。3 年间主导公司全品类视觉物料设计、品牌视觉升级、展会全案策划执行，以及短视频内容从策划到成片的全流程产出。</p>
+      <br>
+      <p>设计工具链完整，擅长大效果视觉表达与多品类内容创意执行。同时积极探索 <strong>AI 辅助设计工作流</strong>，用技术提升创意产能，让设计更高效、更有冲击力。</p>
+    </div>
+    <div class="about-highlights">
+      <div class="hl-card reveal">
+        <div class="hl-icon">&#x1F3AF;</div>
+        <h4>精准执行</h4>
+        <p>从需求理解到交付把控，准时高质量输出</p>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon">&#x1F9E0;</div>
+        <h4>设计思维</h4>
+        <p>不只执行工具，更是带着产品思维做设计</p>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon">&#x1F3AC;</div>
+        <h4>全能内容</h4>
+        <p>平面+摄影+视频+AI，全链路内容生产力</p>
+      </div>
+      <div class="hl-card reveal">
+        <div class="hl-icon">&#x26A1;</div>
+        <h4>AI 驱动</h4>
+        <p>AI 图像+AI 视频，效率提升 30% 以上</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-inner">
+    <div class="section-header reveal">
+      <div class="section-tag">Skills & Tools</div>
+      <h2 class="section-title">技能 <span class="accent">工具</span></h2>
+    </div>
+    <div class="skill-tags reveal">
+      <span class="skill-tag">Photoshop</span>
+      <span class="skill-tag">Illustrator</span>
+      <span class="skill-tag">InDesign</span>
+      <span class="skill-tag">SketchUp</span>
+      <span class="skill-tag">Premiere Pro</span>
+      <span class="skill-tag">After Effects</span>
+      <span class="skill-tag">Final Cut Pro</span>
+      <span class="skill-tag">Figma</span>
+      <span class="skill-tag">Lightroom</span>
+      <span class="skill-tag">AI 绘图</span>
+      <span class="skill-tag">AI 视频</span>
+      <span class="skill-tag">品牌设计</span>
+      <span class="skill-tag">展会策划</span>
+      <span class="skill-tag">视频剪辑</span>
+      <span class="skill-tag">摄影后期</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-header">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-title">期待与你合作</h2>
+    </div>
+    <p class="contact-desc">无论是品牌视觉、展会设计还是视频制作，随时欢迎联系</p>
+    <div class="contact-links">
+      <a href="mailto:liqi@example.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        邮箱联系
+      </a>
+      <a href="tel:+8613800138000" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        电话联系
+      </a>
+      <a href="https://lqresume.com" class="contact-link" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        lqresume.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lbOverlay" onclick="closeLb(event)">
+  <div class="lb-content" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLb()">&times;</button>
+    <button class="lb-nav lb-prev" onclick="lbNav(-1)">&#8249;</button>
+    <button class="lb-nav lb-next" onclick="lbNav(1)">&#8250;</button>
+    <div id="lbMedia"></div>
+    <div class="lb-info">
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 李琪 LIQI. All rights reserved. &nbsp;|&nbsp; 简约高亮版 V2.0</p>
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+============================================================ */
+const PRESET_WORKS = [
+  {
+    id: 'preset-1', cat: 'brand', catLabel: '品牌视觉',
+    title: '温压采集器产品宣传图', desc: '工业级产品宣传海报设计，突出产品功能特性与品牌调性',
+    type: 'image', src: 'portfolio/images/温压采集器.png', wide: false,
+    meta: ['PNG', '产品宣传']
+  },
+  {
+    id: 'preset-2', cat: 'brand', catLabel: '品牌视觉',
+    title: 'NTR300 产品宣传图', desc: '智能仪表产品视觉设计，用于官网及电商平台展示',
+    type: 'image', src: 'portfolio/images/NTR300.png', wide: false,
+    meta: ['PNG', '产品宣传']
+  },
+  {
+    id: 'preset-3', cat: 'space', catLabel: '展陈空间',
+    title: '展会效果图 · 方案一', desc: '行业展会展台 3D 渲染效果图，整体空间规划与视觉呈现',
+    type: 'image', src: 'portfolio/images/展会效果图1.png', wide: true,
+    meta: ['3D 渲染', '展会设计']
+  },
+  {
+    id: 'preset-4', cat: 'space', catLabel: '展陈空间',
+    title: '展会效果图 · 方案二', desc: '展台细节渲染，材质灯光与品牌元素融合',
+    type: 'image', src: 'portfolio/images/展会效果图2.png', wide: false,
+    meta: ['3D 渲染', '展会设计']
+  },
+  {
+    id: 'preset-5', cat: 'space', catLabel: '展陈空间',
+    title: '展会效果图 · 方案三', desc: '多角度展台渲染，展示空间层次感与参观动线',
+    type: 'image', src: 'portfolio/images/展会效果图3.png', wide: false,
+    meta: ['3D 渲染', '展会设计']
+  },
+  {
+    id: 'preset-6', cat: 'video', catLabel: '视频制作',
+    title: '双球阀产品宣传片', desc: '工业阀门产品宣传视频，策划拍摄剪辑全流程独立完成',
+    type: 'video', src: 'portfolio/videos/双球阀.mp4', wide: true,
+    meta: ['MP4', '产品宣传']
+  },
+  {
+    id: 'preset-7', cat: 'video', catLabel: '视频制作',
+    title: 'CPT100 产品宣传片', desc: '智能传感器产品宣传视频，突出技术参数与应用场景',
+    type: 'video', src: 'portfolio/videos/CPT100.mp4', wide: false,
+    meta: ['MP4', '产品宣传']
+  },
+  {
+    id: 'preset-8', cat: 'video', catLabel: '视频制作',
+    title: 'WAC710N 产品宣传片', desc: '无线通信模块产品视频，展示产品外观与核心功能',
+    type: 'video', src: 'portfolio/videos/WAC710N.mp4', wide: false,
+    meta: ['MP4', '产品宣传']
+  }
+];
+
+const SOURCE_FILES = [
+  { name: '智慧供热产品手册.ai', type: 'Adobe Illustrator', path: 'portfolio/source/智慧供热产品手册.ai' },
+  { name: '智慧供热解决方案手册.ai', type: 'Adobe Illustrator', path: 'portfolio/source/智慧供热解决方案手册.ai' },
+  { name: '宣传海报1.psd', type: 'Photoshop', path: 'portfolio/source/宣传海报1.psd' },
+  { name: '宣传海报2.psd', type: 'Photoshop', path: 'portfolio/source/宣传海报2.psd' },
+  { name: '北京展会.skp', type: 'SketchUp', path: 'portfolio/source/北京展会.skp' },
+  { name: '济南展会.skp', type: 'SketchUp', path: 'portfolio/source/济南展会.skp' },
+  { name: '2025北京展会.skb', type: 'SketchUp Backup', path: 'portfolio/source/2025北京展会.skb' }
+];
+
+/* ============================================================
+   CLOUDBASE
+============================================================ */
+const CB_ENV = 'cloudbase-1gugchvz1e7c6bfc';
+let cbApp = null, cbDb = null;
+
+/* ============================================================
+   STATE
+============================================================ */
+let allWorks = [];
+let currentFilter = 'all';
+let lbIndex = 0;
+let lbFiltered = [];
+
+/* ============================================================
+   CIRCULAR CAROUSEL
+============================================================ */
+const CAROUSEL_COUNT = 8;
+let carouselRotation = 0;
+let carouselVelocity = 0;
+const CAROUSEL_AUTO_SPEED = 0.12;
+let carouselCards = [];
+
+function buildCarousel() {
+  const container = document.getElementById('carouselContainer');
+  const works = allWorks.slice(0, CAROUSEL_COUNT);
+  if (works.length === 0) return;
+
+  container.innerHTML = '';
+  carouselCards = [];
+
+  works.forEach((work, i) => {
+    const card = document.createElement('div');
+    card.className = 'carousel-card';
+    card.onclick = () => openLb(work.id);
+
+    const isVideo = work.type === 'video';
+    if (isVideo) {
+      card.innerHTML = `<video src="${work.src}" muted loop autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video><div class="card-label">${work.title}</div>`;
+    } else {
+      card.innerHTML = `<img src="${work.src}" alt="${work.title}" loading="lazy"><div class="card-label">${work.title}</div>`;
+    }
+
+    container.appendChild(card);
+    carouselCards.push(card);
+  });
+
+  // Force play all videos
+  container.querySelectorAll('video').forEach(v => {
+    v.play().catch(() => {});
+  });
+}
+
+function updateCarousel() {
+  // Auto-rotate slowly when no manual input
+  if (Math.abs(carouselVelocity) < 0.02) {
+    carouselVelocity = CAROUSEL_AUTO_SPEED;
+  }
+
+  carouselVelocity *= 0.96;
+  carouselRotation += carouselVelocity;
+
+  const count = carouselCards.length;
+  if (count === 0) return;
+
+  const angleStep = 360 / count;
+
+  // Responsive radius
+  const w = window.innerWidth;
+  let radiusX = 420, radiusY = 140;
+  if (w < 768) { radiusX = 160; radiusY = 60; }
+  else if (w < 1024) { radiusX = 280; radiusY = 100; }
+
+  carouselCards.forEach((card, i) => {
+    const angle = carouselRotation + i * angleStep;
+    const rad = angle * Math.PI / 180;
+
+    const x = Math.cos(rad) * radiusX;
+    const y = Math.sin(rad) * radiusY;
+
+    const sinVal = Math.sin(rad);
+
+    // Back cards (sinVal < -0.15) → disappear
+    if (sinVal < -0.15) {
+      card.style.opacity = '0';
+      card.style.pointerEvents = 'none';
+      card.style.zIndex = '0';
+      card.style.transform = `translate(${x}px, ${y}px) scale(0.3)`;
+      return;
+    }
+
+    // Normalized 0..1 for visible cards (sinVal from -0.15 to 1)
+    const normalizedZ = (sinVal + 0.15) / 1.15;
+    const scale = 0.5 + 0.5 * normalizedZ;
+    const opacity = 0.4 + 0.6 * normalizedZ;
+    // z-index: front cards (high sinVal) get very high z-index to overlay hero text
+    const zIndex = Math.round(normalizedZ * 50) + 1;
+    // Front cards cast a shadow
+    const shadowStrength = Math.round(normalizedZ * 30);
+
+    card.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    card.style.opacity = opacity;
+    card.style.zIndex = zIndex;
+    card.style.pointerEvents = normalizedZ > 0.3 ? 'auto' : 'none';
+    card.style.boxShadow = `0 ${4 + shadowStrength}px ${20 + shadowStrength * 2}px rgba(0,0,0,${0.05 + normalizedZ * 0.12})`;
+  });
+
+  requestAnimationFrame(updateCarousel);
+}
+
+// Wheel listener — only capture when mouse is directly over a carousel card
+const carouselEl = document.getElementById('carouselContainer');
+carouselEl.addEventListener('wheel', (e) => {
+  if (e.target.closest('.carousel-card')) {
+    e.preventDefault();
+    carouselVelocity += e.deltaY * 0.04;
+  }
+}, { passive: false });
+
+// Touch support for carousel — on hero but only if touch is in carousel zone
+let touchStartY = 0;
+const heroEl = document.getElementById('hero');
+heroEl.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+heroEl.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  const heroRect = heroEl.getBoundingClientRect();
+  const relY = (touch.clientY - heroRect.top) / heroRect.height;
+  // Only drive carousel if touch is in the middle 60% of hero vertically
+  if (relY > 0.2 && relY < 0.8) {
+    const dy = touchStartY - touch.clientY;
+    touchStartY = touch.clientY;
+    carouselVelocity += dy * 0.1;
+  }
+}, { passive: true });
+
+/* ============================================================
+   WORKS GRID
+============================================================ */
+function getFilteredWorks() {
+  if (currentFilter === 'all') return allWorks;
+  return allWorks.filter(w => w.cat === currentFilter);
+}
+
+function renderWorks() {
+  const grid = document.getElementById('worksGrid');
+  const filtered = getFilteredWorks();
+  grid.innerHTML = filtered.map(work => createWorkCard(work)).join('');
+  grid.querySelectorAll('video').forEach(v => {
+    v.addEventListener('loadeddata', () => { v.currentTime = 0.001; });
+  });
+  setupReveal();
+}
+
+function createWorkCard(work) {
+  const isVideo = work.type === 'video';
+  const thumb = isVideo
+    ? `<video src="${work.src}#t=0.001" muted preload="metadata"></video><div class="video-badge">&#9654;</div>`
+    : `<img src="${work.src}" alt="${work.title}" loading="lazy">`;
+  const wideClass = work.wide ? 'wide' : '';
+  const metaHtml = work.meta ? work.meta.map(m => `<span>${m}</span>`).join('') : '';
+
+  return `
+    <div class="work-card ${wideClass} reveal" data-cat="${work.cat}" onclick="openLb('${work.id}')">
+      <div class="work-thumb">${thumb}</div>
+      <div class="work-info">
+        <div class="work-cat">${work.catLabel}</div>
+        <div class="work-title">${work.title}</div>
+        <div class="work-desc">${work.desc}</div>
+      </div>
+      <div class="work-meta">${metaHtml}</div>
+    </div>`;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderWorks();
+  });
+});
+
+/* ============================================================
+   LIGHTBOX
+============================================================ */
+function openLb(workId) {
+  const filtered = getFilteredWorks();
+  lbFiltered = filtered;
+  lbIndex = filtered.findIndex(w => w.id === workId);
+  if (lbIndex < 0) lbIndex = 0;
+  showLb();
+}
+
+function showLb() {
+  const work = lbFiltered[lbIndex];
+  if (!work) return;
+  const overlay = document.getElementById('lbOverlay');
+  const media = document.getElementById('lbMedia');
+  const title = document.getElementById('lbTitle');
+  const desc = document.getElementById('lbDesc');
+
+  if (work.type === 'video') {
+    media.innerHTML = `<video src="${work.src}" controls autoplay style="max-width:90vw;max-height:80vh;border-radius:16px;"></video>`;
+  } else {
+    media.innerHTML = `<img src="${work.src}" alt="${work.title}">`;
+  }
+  title.textContent = work.title;
+  desc.textContent = work.desc;
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLb(e) {
+  if (e && e.target !== document.getElementById('lbOverlay')) return;
+  document.getElementById('lbOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+  document.getElementById('lbMedia').innerHTML = '';
+}
+
+function lbNav(dir) {
+  lbIndex = (lbIndex + dir + lbFiltered.length) % lbFiltered.length;
+  showLb();
+}
+
+document.addEventListener('keydown', (e) => {
+  const overlay = document.getElementById('lbOverlay');
+  if (!overlay.classList.contains('show')) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  if (e.key === 'ArrowRight') lbNav(1);
+});
+
+/* ============================================================
+   MOBILE DRAWER
+============================================================ */
+function toggleDrawer() {
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('show');
+}
+
+/* ============================================================
+   REVEAL ON SCROLL
+============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+function setupReveal() {
+  document.querySelectorAll('.reveal:not(.observed)').forEach(el => {
+    el.classList.add('observed');
+    revealObserver.observe(el);
+  });
+}
+
+/* ============================================================
+   NAV SCROLL EFFECT
+============================================================ */
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.style.borderBottomColor = 'var(--border-hover)';
+    nav.style.boxShadow = '0 1px 8px rgba(0,0,0,0.04)';
+  } else {
+    nav.style.borderBottomColor = 'var(--border)';
+    nav.style.boxShadow = 'none';
+  }
+});
+
+/* ============================================================
+   INIT
+============================================================ */
+async function init() {
+  allWorks = [...PRESET_WORKS];
+  renderWorks();
+  buildCarousel();
+  updateCarousel();
+
+  // CloudBase load
+  try {
+    cbApp = cloudbase.init({ env: CB_ENV });
+    const auth = cbApp.auth({ persistence: 'local' });
+    const loginState = await auth.getLoginState();
+    if (!loginState) await auth.anonymousAuthProvider().signIn();
+    cbDb = cbApp.database();
+
+    const result = await cbDb.collection('works').orderBy('order', 'desc').limit(100).get();
+    const cloudWorks = [];
+
+    for (const doc of result.data) {
+      let src = doc.src || '';
+      if (doc.fileID) {
+        try {
+          const urlRes = await cbApp.getTempFileURL({ fileList: [doc.fileID] });
+          if (urlRes.fileList && urlRes.fileList[0] && urlRes.fileList[0].tempFileURL) {
+            src = urlRes.fileList[0].tempFileURL;
+          }
+        } catch (e) { console.warn('getTempFileURL failed:', e); }
+      }
+      cloudWorks.push({
+        id: doc._id, cat: doc.cat || 'brand', catLabel: doc.catLabel || '品牌视觉',
+        title: doc.title || '未命名', desc: doc.desc || '',
+        type: doc.type || 'image', src: src, wide: doc.wide || false,
+        meta: doc.meta || ['云端']
+      });
+    }
+
+    if (cloudWorks.length > 0) {
+      allWorks = [...PRESET_WORKS, ...cloudWorks];
+      renderWorks();
+      buildCarousel();
+    }
+    console.log('CloudBase loaded:', cloudWorks.length, 'works');
+  } catch (err) {
+    console.warn('CloudBase load failed:', err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
