@@ -1,0 +1,6 @@
+.claude/
+portfolio/
+gen_excel.py
+*.html
+!index.html
+!admin.html
