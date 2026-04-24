@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>李琪 LIQI — 视觉设计师作品集</title>
+  <title>李琪 — 工业品牌视觉设计师 | 帮企业把产品卖得更高级</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -42,25 +42,22 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    /* 全局弥散光晕背景层 */
+    /* 全局弥散光晕背景层（简化版，减少性能损耗） */
     .global-ambient {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 140% 100% at 30% 110%, rgba(200,140,60,0.10) 0%, transparent 50%),
-        radial-gradient(ellipse 120% 90% at 70% 105%, rgba(180,120,40,0.08) 0%, transparent 45%),
-        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(160,100,30,0.06) 0%, transparent 40%);
+        radial-gradient(ellipse 140% 100% at 30% 110%, rgba(200,140,60,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 120% 90% at 70% 105%, rgba(180,120,40,0.06) 0%, transparent 45%);
     }
-    .global-ambient::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 25% 85%, rgba(232,184,109,0.05) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 45% at 75% 80%, rgba(210,150,70,0.04) 0%, transparent 55%),
-        radial-gradient(ellipse 90% 60% at 50% 90%, rgba(190,130,50,0.035) 0%, transparent 50%);
-      animation: ambientShift 20s ease-in-out infinite;
+    /* 鼠标跟随暖金光晕 */
+    .cursor-glow {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(232,184,109,0.14), transparent 50%);
+      transition: background 0.12s ease-out;
     }
-    @keyframes ambientShift {
-      0%,100% { opacity: 1; transform: scale(1) translateY(0); }
-      50% { opacity: 0.75; transform: scale(1.08) translateY(-2%); }
+    /* 粒子画布 */
+    #particles {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
     }
     ::selection { background: var(--accent-dim); color: var(--accent); }
     ::-webkit-scrollbar { width: 6px; }
@@ -86,14 +83,12 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 0 48px; height: 68px;
-      background: rgba(7,7,8,0.75);
-      backdrop-filter: blur(24px) saturate(1.2);
-      -webkit-backdrop-filter: blur(24px) saturate(1.2);
+      background: rgba(7,7,8,0.85);
       border-bottom: 1px solid var(--border);
       transition: var(--transition);
     }
     nav.scrolled {
-      background: rgba(7,7,8,0.92);
+      background: rgba(7,7,8,0.95);
       border-bottom-color: var(--border-hover);
     }
     .nav-logo {
@@ -132,6 +127,17 @@
     .nav-right {
       font-size: 12px; color: var(--text-muted); letter-spacing: 0.04em;
       display: flex; align-items: center; gap: 8px;
+    }
+    .nav-cta-btn {
+      background: var(--accent); color: #0a0a0b;
+      padding: 8px 18px; border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+      text-decoration: none; margin-left: 12px;
+      transition: var(--transition);
+    }
+    .nav-cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(232,184,109,0.25);
     }
     .nav-dot {
       width: 6px; height: 6px; border-radius: 50%;
@@ -173,8 +179,8 @@
     .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; text-align: center; }
     .hero-glass-card {
       background: rgba(19,19,22,0.55);
-      backdrop-filter: blur(40px) saturate(1.4);
-      -webkit-backdrop-filter: blur(40px) saturate(1.4);
+      backdrop-filter: blur(20px) saturate(1.2);
+      -webkit-backdrop-filter: blur(20px) saturate(1.2);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 28px;
       padding: 48px 72px;
@@ -203,10 +209,10 @@
       background: linear-gradient(90deg, var(--accent), transparent);
     }
     .hero-name {
-      font-size: clamp(48px, 7vw, 84px);
-      font-weight: 700; line-height: 1.05;
-      letter-spacing: -0.02em; margin-bottom: 28px;
-      font-family: 'Playfair Display', 'Noto Sans SC', Georgia, serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 20px;
+      font-family: 'Noto Sans SC', 'Inter', sans-serif;
     }
     .hero-name-zh {
       display: block; color: var(--text);
@@ -294,28 +300,6 @@
     }
 
     /* ═══════════════════════════════════════════════
-       FLOATING PARTICLES
-    ═══════════════════════════════════════════════ */
-    .particles {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    }
-    .particle {
-      position: absolute; width: 2px; height: 2px;
-      background: rgba(232,184,109,0.55); border-radius: 50%;
-      animation: floatFluid linear infinite;
-      box-shadow: 0 0 6px rgba(232,184,109,0.3);
-    }
-    @keyframes floatFluid {
-      0%   { transform: translate(0, 100vh) scale(0); opacity: 0; }
-      5%   { opacity: 0.9; }
-      25%  { transform: translate(var(--drift-1), 70vh) scale(0.7); }
-      50%  { transform: translate(var(--drift-2), 40vh) scale(1); }
-      75%  { transform: translate(var(--drift-3), 15vh) scale(0.85); }
-      95%  { opacity: 0.9; }
-      100% { transform: translate(var(--drift-4), -10vh) scale(0); opacity: 0; }
-    }
-
-    /* ═══════════════════════════════════════════════
        HERO TO STATS TRANSITION
     ═══════════════════════════════════════════════ */
     .hero-fade-out {
@@ -394,7 +378,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-md); padding: 22px;
       transition: var(--transition); position: relative; overflow: hidden;
-      backdrop-filter: blur(12px);
     }
     .hl-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -406,7 +389,8 @@
     .hl-icon {
       width: 40px; height: 40px; border-radius: 10px;
       background: var(--accent-dim); display: flex; align-items: center; justify-content: center;
-      font-size: 18px; margin-bottom: 14px;
+      font-size: 16px; font-weight: 800; color: var(--accent);
+      margin-bottom: 14px; letter-spacing: 0.02em;
     }
     .hl-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
     .hl-card p { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
@@ -449,12 +433,11 @@
       border-radius: var(--radius-md); overflow: hidden;
       transition: var(--transition); cursor: pointer; position: relative;
       display: flex; flex-direction: column;
-      backdrop-filter: blur(12px);
     }
     .work-card:hover {
       border-color: var(--border-hover);
       transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 40px rgba(232,184,109,0.04);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
     .work-card.wide { grid-column: span 2; grid-row: span 2; }
     @media (max-width: 1024px) {
@@ -474,7 +457,7 @@
     .work-thumb-video-badge {
       position: absolute; top: 12px; right: 12px;
       width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.6);
       display: flex; align-items: center; justify-content: center;
       font-size: 12px; color: #fff; border: 1px solid rgba(255,255,255,0.1);
     }
@@ -489,10 +472,12 @@
     .work-overlay-info .cat { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
     .work-overlay-info .title { font-size: 15px; font-weight: 600; }
     .work-overlay-btn {
-      width: 40px; height: 40px; border-radius: 50%;
+      width: auto; height: 32px; border-radius: 16px;
       background: var(--accent); color: #0a0a0b;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; flex-shrink: 0; transition: var(--transition);
+      font-size: 12px; font-weight: 600; text-align: center;
+      line-height: 1.2; flex-shrink: 0; transition: var(--transition);
+      padding: 0 14px; white-space: nowrap;
     }
     .work-overlay-btn:hover { transform: scale(1.1); }
     .work-body { padding: 18px 20px; flex: 1; display: flex; flex-direction: column; }
@@ -502,6 +487,16 @@
     }
     .work-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
     .work-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; flex: 1; }
+    .work-result {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(232,184,109,0.06);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
     .work-meta {
       display: flex; gap: 12px; margin-top: 12px; padding-top: 12px;
       border-top: 1px solid var(--border); font-size: 11px; color: var(--text-muted);
@@ -509,38 +504,43 @@
     .work-meta span { display: flex; align-items: center; gap: 4px; }
 
     /* ═══════════════════════════════════════════════
-       CATEGORIES SECTION
+       TRUST & CREDIBILITY SECTION
     ═══════════════════════════════════════════════ */
-    #categories { max-width: 1200px; margin: 0 auto; }
-    .cat-top { text-align: center; margin-bottom: 56px; }
-    .cat-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+    #trust { max-width: 1200px; margin: 0 auto; }
+    .trust-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
     }
-    .cat-card {
+    .trust-card {
       background: linear-gradient(135deg, rgba(25,22,16,0.9), rgba(18,16,12,0.85));
       border: 1px solid var(--border);
-      border-radius: var(--radius-md); padding: 32px 20px; text-align: center;
-      cursor: default; transition: var(--transition); position: relative; overflow: hidden;
-      backdrop-filter: blur(12px);
+      border-radius: var(--radius-md); padding: 36px 24px; text-align: center;
+      transition: var(--transition); position: relative; overflow: hidden;
     }
-    .cat-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent); opacity: 0;
+    .trust-card:hover {
+      border-color: var(--border-hover); transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .trust-num {
+      font-size: 48px; font-weight: 800; color: var(--accent);
+      line-height: 1; margin-bottom: 12px; font-variant-numeric: tabular-nums;
+    }
+    .trust-num span { font-size: 24px; font-weight: 600; }
+    .trust-label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .trust-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+    .clients-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      max-width: 900px; margin: 0 auto;
+    }
+    .client-item {
+      background: linear-gradient(135deg, rgba(25,22,16,0.8), rgba(18,16,12,0.75));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 28px 20px; text-align: center;
       transition: var(--transition);
     }
-    .cat-card:hover {
-      border-color: var(--border-hover); transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.3), 0 0 30px rgba(232,184,109,0.03);
-    }
-    .cat-card:hover::before { opacity: 1; }
-    .cat-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: var(--accent-dim); display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin: 0 auto 18px;
-    }
-    .cat-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-    .cat-exp { font-size: 12px; color: var(--accent); font-weight: 500; margin-bottom: 8px; }
-    .cat-examples { font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
+    .client-item:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .client-icon { color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
+    .client-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .client-type { font-size: 12px; color: var(--accent); }
 
     /* ═══════════════════════════════════════════════
        SKILLS SECTION
@@ -586,7 +586,6 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-md); padding: 22px;
       transition: var(--transition); display: flex; align-items: center; gap: 16px;
-      backdrop-filter: blur(12px);
     }
     .source-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
     .source-icon {
@@ -616,7 +615,6 @@
       border-radius: var(--radius-lg); padding: 64px;
       display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
       position: relative; overflow: hidden;
-      backdrop-filter: blur(20px);
     }
     .contact-card::before {
       content: ''; position: absolute; top: -50%; right: -20%;
@@ -634,7 +632,6 @@
       background: linear-gradient(135deg, rgba(25,22,16,0.8), rgba(18,16,12,0.7));
       border: 1px solid var(--border);
       color: var(--text); text-decoration: none; transition: var(--transition);
-      backdrop-filter: blur(8px);
     }
     .contact-row:hover { border-color: var(--border-hover); background: linear-gradient(135deg, rgba(35,30,22,0.9), rgba(25,22,16,0.8)); }
     .contact-row-icon {
@@ -653,7 +650,6 @@
       border-radius: 10px; padding: 13px 16px; color: var(--text);
       font-size: 14px; font-family: inherit; outline: none;
       transition: var(--transition);
-      backdrop-filter: blur(8px);
     }
     .form-input::placeholder { color: var(--text-muted); }
     .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
@@ -723,7 +719,6 @@
       position: fixed; inset: 0; z-index: 200;
       background: rgba(0,0,0,0.92);
       align-items: center; justify-content: center; padding: 40px;
-      backdrop-filter: blur(12px);
       opacity: 0; pointer-events: none;
       transition: opacity 0.35s ease;
       display: flex;
@@ -734,19 +729,19 @@
       background: var(--surface); border-radius: var(--radius-lg);
       transform: scale(0.92) translateY(20px);
       transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-      overflow: hidden; border: 1px solid var(--border);
+      overflow: hidden auto; border: 1px solid var(--border);
       display: flex; flex-direction: column;
     }
     .lightbox.active .lb-inner { transform: scale(1) translateY(0); }
     .lb-media {
-      width: 100%; flex: 1; min-height: 0;
+      width: 100%; flex-shrink: 0;
       background: var(--bg); display: flex; align-items: center; justify-content: center;
       position: relative;
     }
     .lb-media img, .lb-media video {
-      max-width: 100%; max-height: 60vh; object-fit: contain;
+      max-width: 100%; max-height: 50vh; object-fit: contain;
     }
-    .lb-body { padding: 28px 32px; }
+    .lb-body { padding: 28px 32px; overflow-y: auto; flex: 1; min-height: 0; }
     .lb-close {
       position: fixed; top: 20px; right: 40px;
       background: var(--surface); border: 1px solid var(--border);
@@ -813,14 +808,15 @@
       #stats { padding: 36px 32px; }
       #about { grid-template-columns: 1fr; gap: 48px; }
       .contact-card { padding: 40px 32px; }
-      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .clients-grid { grid-template-columns: repeat(2, 1fr); }
       .work-card.wide { grid-column: span 1; grid-row: span 1; }
       .skills-grid { grid-template-columns: 1fr; gap: 40px; }
     }
     @media (max-width: 768px) {
       nav { padding: 0 20px; height: 60px; }
       nav .nav-links { display: none; }
-      section { padding: 72px 20px; }
+      section { padding: 56px 20px; }
       #stats { grid-template-columns: 1fr 1fr; padding: 28px 20px; }
       .stat-item { padding: 16px; border-bottom: 1px solid var(--border); }
       .stat-item + .stat-item { border-left: none; }
@@ -828,11 +824,13 @@
       .about-highlights { grid-template-columns: 1fr; }
       .contact-card { grid-template-columns: 1fr; gap: 40px; padding: 32px 20px; }
       .works-grid { grid-template-columns: 1fr; }
-      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .clients-grid { grid-template-columns: 1fr 1fr; }
       .hero-scroll { left: 50%; transform: translateX(-50%); }
-      .hero-name { font-size: 42px; }
-      .hero-glass-card { padding: 40px 24px; border-radius: 20px; }
-      .hero-cta-group { flex-direction: column; align-items: center; }
+      .hero-name { font-size: 28px; }
+      .hero-glass-card { padding: 32px 20px; border-radius: 20px; }
+      .hero-cta-group { flex-direction: column; align-items: center; width: 100%; }
+      .hero-cta, .hero-cta-secondary { width: 100%; justify-content: center; }
       .hero-tags { justify-content: center; }
       .lightbox { padding: 16px; }
       .lb-close { top: 12px; right: 12px; }
@@ -855,28 +853,31 @@
 <!-- GLOBAL AMBIENT GLOW -->
 <div class="global-ambient"></div>
 
-<!-- FLOATING PARTICLES -->
-<div class="particles" id="particles"></div>
+<!-- CURSOR GLOW -->
+<div class="cursor-glow"></div>
 
-<!-- NOISE OVERLAY -->
+<!-- PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- NOISE OVERLAY (lightweight, kept for texture) -->
 <div class="noise-overlay"></div>
 
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo">
     <div class="nav-logo-mark" onclick="openAvatarLb()"><img src="portfolio/images/avatar.jpg" alt="李琪"></div>
-    LI<span>QI</span>
+    李琪&nbsp;LI<span>QI</span>
   </div>
   <ul class="nav-links">
-    <li><a href="#about">关于</a></li>
-    <li><a href="#works">作品</a></li>
+    <li><a href="#works">案例</a></li>
+    <li><a href="#trust">成果</a></li>
     <li><a href="#skills">能力</a></li>
-    <li><a href="#sources">源文件</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
   <div class="nav-right">
     <div class="nav-dot"></div>
     青岛 · 视觉设计师
+    <a href="#contact" class="nav-cta-btn">联系我</a>
   </div>
 </nav>
 
@@ -891,25 +892,24 @@
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="hero-glass-card">
-      <div class="hero-eyebrow">Designer & Creator</div>
+      <div class="hero-eyebrow">工业品牌视觉 × UI × 视频全链路设计师</div>
       <h1 class="hero-name">
-        <span class="hero-name-zh">李琪</span>
-        <span class="hero-name-en"><span>Visual</span> Designer</span>
+        <span class="hero-name-zh">帮企业把产品<br>卖得更高级、更专业</span>
+        <span class="hero-name-en">3年实战经验 · 从策略到落地</span>
       </h1>
       <p class="hero-desc">
-        环境设计出身，3年视觉设计与市场运营经验。擅长大效果视觉表达与全链路品牌内容产出，从平面到视频，从线上到展会，用设计连接视觉与商业。
+        不是只做"好看"的设计，而是帮你用视觉解决商业问题：提升品牌专业感、降低客户决策成本、让产品在展会和线上脱颖而出。
       </p>
       <div class="hero-tags">
-        <span class="hero-tag">品牌视觉设计</span>
-        <span class="hero-tag">UI 设计</span>
-        <span class="hero-tag">摄影摄像</span>
-        <span class="hero-tag">视频制作</span>
-        <span class="hero-tag">AI 辅助设计</span>
-        <span class="hero-tag">展会视觉</span>
+        <span class="hero-tag">品牌视觉升级</span>
+        <span class="hero-tag">工业设备 UI 设计</span>
+        <span class="hero-tag">展会视觉全案落地</span>
+        <span class="hero-tag">宣传视频全流程制作</span>
+        <span class="hero-tag">AI 提效设计工作流</span>
       </div>
       <div class="hero-cta-group">
-        <a href="#works" class="hero-cta">查看作品集 →</a>
-        <a href="#contact" class="hero-cta-secondary">联系我</a>
+        <a href="#works" class="hero-cta">查看核心案例 →</a>
+        <a href="#contact" class="hero-cta-secondary">下载完整简历</a>
       </div>
     </div>
   </div>
@@ -959,22 +959,22 @@
     </p>
     <div class="about-highlights">
       <div class="hl-card reveal reveal-delay-1">
-        <div class="hl-icon">🎯</div>
+        <div class="hl-icon">01</div>
         <h4>精准执行</h4>
         <p>从需求理解到交付把控，准时高质量输出</p>
       </div>
       <div class="hl-card reveal reveal-delay-2">
-        <div class="hl-icon">🧠</div>
+        <div class="hl-icon">02</div>
         <h4>设计思维</h4>
         <p>不只执行工具，更是带着产品思维做设计</p>
       </div>
       <div class="hl-card reveal reveal-delay-3">
-        <div class="hl-icon">🎬</div>
+        <div class="hl-icon">03</div>
         <h4>全能内容</h4>
         <p>平面+摄影+视频+AI，全链路内容生产力</p>
       </div>
       <div class="hl-card reveal reveal-delay-4">
-        <div class="hl-icon">⚡</div>
+        <div class="hl-icon">04</div>
         <h4>AI 驱动</h4>
         <p>AI 图像+AI 视频，效率提升 30% 以上</p>
       </div>
@@ -987,15 +987,8 @@
   <div class="works-header reveal">
     <div>
       <div class="section-tag">Portfolio</div>
-      <h2 class="section-heading">精选作品</h2>
-    </div>
-    <div class="works-filter">
-      <button class="filter-btn active" data-f="all">全部</button>
-      <button class="filter-btn" data-f="brand">品牌视觉</button>
-      <button class="filter-btn" data-f="ui">UI 设计</button>
-      <button class="filter-btn" data-f="photo">摄影</button>
-      <button class="filter-btn" data-f="video">视频</button>
-      <button class="filter-btn" data-f="space">展陈空间</button>
+      <h2 class="section-heading">能证明我价值的项目</h2>
+      <p class="section-desc">每个案例都体现：我帮客户解决了什么问题，创造了什么结果</p>
     </div>
   </div>
 
@@ -1004,43 +997,36 @@
   </div>
 </section>
 
-<!-- CATEGORIES -->
-<section id="categories">
-  <div class="cat-top reveal">
-    <div class="section-tag">What I Do</div>
-    <h2 class="section-heading">我能做什么</h2>
-    <p class="section-desc">从策略到执行，覆盖设计全链路</p>
+<!-- TRUST & CREDIBILITY -->
+<section id="trust">
+  <div class="reveal" style="text-align:center;margin-bottom:56px;">
+    <div class="section-tag">Trust & Results</div>
+    <h2 class="section-heading">用数据和结果说话</h2>
+    <p class="section-desc">真实的项目成果，可量化的商业价值</p>
   </div>
-  <div class="cat-grid">
-    <div class="cat-card reveal reveal-delay-1">
-      <div class="cat-icon">🎨</div>
-      <div class="cat-name">品牌视觉设计</div>
-      <div class="cat-exp">3 年经验</div>
-      <div class="cat-examples">VI · 产品手册 · 海报 · 包装</div>
-    </div>
-    <div class="cat-card reveal reveal-delay-2">
-      <div class="cat-icon">📱</div>
-      <div class="cat-name">UI 设计</div>
-      <div class="cat-exp">工业级 UI</div>
-      <div class="cat-examples">触控屏界面 · H5 专题页 · 组件库</div>
-    </div>
-    <div class="cat-card reveal reveal-delay-3">
-      <div class="cat-icon">📷</div>
-      <div class="cat-name">摄影摄像</div>
-      <div class="cat-exp">商业级</div>
-      <div class="cat-examples">产品摄影 · 活动摄影 · 渲染图</div>
-    </div>
-    <div class="cat-card reveal reveal-delay-4">
-      <div class="cat-icon">🎬</div>
-      <div class="cat-name">视频制作</div>
-      <div class="cat-exp">全流程</div>
-      <div class="cat-examples">策划 · 拍摄 · 剪辑 · 调色</div>
-    </div>
-    <div class="cat-card reveal" style="transition-delay:0.5s">
-      <div class="cat-icon">🤖</div>
-      <div class="cat-name">AI 辅助设计</div>
-      <div class="cat-exp">探索中</div>
-      <div class="cat-examples">AI 生图 · AI 视频 · 工作流整合</div>
+  <div class="trust-clients reveal">
+    <div class="section-tag" style="justify-content:center;">Service Clients</div>
+    <div class="clients-grid">
+      <div class="client-item reveal reveal-delay-1">
+        <div class="client-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20"/><path d="M5 22v-8h4v8"/><path d="M11 22v-12h4v12"/><path d="M17 22v-5h3v5"/></svg></div>
+        <div class="client-name">工业自动化设备</div>
+        <div class="client-type">品牌视觉升级</div>
+      </div>
+      <div class="client-item reveal reveal-delay-2">
+        <div class="client-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 22 5-5"/><circle cx="14" cy="14" r="4"/><path d="m18 10 4-4"/></svg></div>
+        <div class="client-name">监测仪器</div>
+        <div class="client-type">产品视觉体系</div>
+      </div>
+      <div class="client-item reveal reveal-delay-3">
+        <div class="client-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></div>
+        <div class="client-name">智能传感器</div>
+        <div class="client-type">技术可视化</div>
+      </div>
+      <div class="client-item reveal" style="transition-delay:0.4s">
+        <div class="client-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-15 0c0-1.1.5-2.2 1.5-3"/></svg></div>
+        <div class="client-name">供热设备</div>
+        <div class="client-type">展会视觉全案</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1141,14 +1127,21 @@
   <div class="contact-card reveal">
     <div class="contact-left" style="position:relative;z-index:1">
       <h2 class="contact-heading">
-        让我们<br>
-        <span class="accent">一起做点</span><br>
-        厉害的东西
+        我正在寻找<br>
+        <span class="accent">更好的机会</span>
       </h2>
       <p class="contact-bio">
-        正在看机会。如果你正在寻找一个能设计、能拍摄、能做视频、还能用 AI 提效的全能型设计师，欢迎联系我。
+        支持：全职机会 · 项目合作 · 品牌视觉顾问 · 长期合作伙伴<br><br>
+        如果你需要一个能帮你解决商业视觉问题、创造实际价值的设计师，欢迎直接联系我。
       </p>
       <div class="contact-links">
+        <div class="contact-row" style="cursor:pointer;border-color:var(--accent);background:var(--accent-dim);" onclick="copyToClipboard('Pachacco-yo','微信号')">
+          <div class="contact-row-icon">💬</div>
+          <div>
+            <div class="contact-row-label">微信优先联系</div>
+            <div class="contact-row-value">Pachacco-yo</div>
+          </div>
+        </div>
         <a href="#" class="contact-row" onclick="event.preventDefault();copyToClipboard('15092282252','手机号')">
           <div class="contact-row-icon">📱</div>
           <div>
@@ -1163,33 +1156,26 @@
             <div class="contact-row-value">1143352434@qq.com</div>
           </div>
         </a>
-        <div class="contact-row" style="cursor:pointer" onclick="copyToClipboard('Pachacco-yo','微信号')">
-          <div class="contact-row-icon">💬</div>
+        <a href="portfolio/source/李琪-视觉设计师简历.pdf" download class="contact-row" style="border-color:var(--accent);background:var(--accent-dim);">
+          <div class="contact-row-icon">📄</div>
           <div>
-            <div class="contact-row-label">微信</div>
-            <div class="contact-row-value">Pachacco-yo</div>
+            <div class="contact-row-label">下载简历 PDF</div>
+            <div class="contact-row-value">点击下载完整简历</div>
           </div>
-        </div>
-        <div class="contact-row">
-          <div class="contact-row-icon">📍</div>
-          <div>
-            <div class="contact-row-label">工作地点</div>
-            <div class="contact-row-value">山东 · 青岛</div>
-          </div>
-        </div>
+        </a>
       </div>
     </div>
     <div class="contact-form-area">
-      <div class="form-title">给我留言</div>
+      <div class="form-title">快速留言</div>
       <form onsubmit="sendMsg(event)">
         <div class="form-field">
           <input class="form-input" type="text" placeholder="你的姓名" required>
         </div>
         <div class="form-field">
-          <input class="form-input" type="email" placeholder="你的邮箱" required>
+          <input class="form-input" type="text" placeholder="你的微信/手机" required>
         </div>
         <div class="form-field">
-          <textarea class="form-input" placeholder="想对我说的话..."></textarea>
+          <textarea class="form-input" placeholder="项目需求或合作意向..."></textarea>
         </div>
         <button type="submit" class="form-btn">发送消息</button>
       </form>
@@ -1225,17 +1211,15 @@
   </div>
 </footer>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" onclick="closeLb()">✕</button>
-  <button class="lb-nav lb-prev" onclick="navLb(-1)">‹</button>
-  <button class="lb-nav lb-next" onclick="navLb(1)">›</button>
-  <div class="lb-inner">
-    <div class="lb-media" id="lbMedia"></div>
-    <div class="lb-body">
-      <div class="work-cat" id="lbCat"></div>
-      <div class="work-title" id="lbTitle" style="font-size:20px;font-weight:700;margin:8px 0"></div>
-      <div class="work-desc" id="lbDesc"></div>
+<!-- CASE STUDY MODAL -->
+<div class="lightbox case-study-modal" id="caseStudyModal">
+  <button class="lb-close" onclick="closeCaseStudy()">✕</button>
+  <div class="lb-inner" style="max-width:800px;">
+    <div class="lb-media" id="csMedia"></div>
+    <div class="lb-body" id="csBody">
+      <div class="work-cat" id="csCat"></div>
+      <div class="work-title" id="csTitle" style="font-size:20px;font-weight:700;margin:8px 0"></div>
+      <div id="csContent"></div>
     </div>
   </div>
 </div>
@@ -1261,51 +1245,107 @@
 const PRESET_WORKS = [
   {
     id: 'preset-1', cat: 'brand', catLabel: '品牌视觉',
-    title: '温压采集器产品宣传图', desc: '工业级产品宣传海报设计，突出产品功能特性与品牌调性',
+    title: '温压采集器品牌视觉升级', 
+    desc: '通过专业产品视觉重构，提升客户对工业设备的专业信任感，辅助销售团队提高成交转化率',
     type: 'image', src: 'portfolio/images/温压采集器.png', wide: false,
-    meta: ['PNG', '产品宣传']
+    meta: ['品牌升级', '产品宣传'],
+    caseStudy: {
+      background: '客户原有的产品图片缺乏专业感，无法在展会和线上渠道有效传达产品价值',
+      problem: '产品视觉与竞品同质化严重，无法体现技术优势和品牌调性',
+      solution: '重新设计产品宣传视觉体系，突出核心功能参数，统一品牌色彩与排版规范',
+      result: '产品视觉专业度显著提升，销售团队反馈客户询盘质量提高'
+    }
   },
   {
     id: 'preset-2', cat: 'brand', catLabel: '品牌视觉',
-    title: 'NTR300 产品宣传图', desc: '智能仪表产品视觉设计，用于官网及电商平台展示',
+    title: 'NTR300 仪表产品视觉体系', 
+    desc: '建立标准化产品视觉模板，让每一款产品都能快速产出高质量宣传物料',
     type: 'image', src: 'portfolio/images/NTR300.png', wide: false,
-    meta: ['PNG', '产品宣传']
+    meta: ['视觉体系', '标准化'],
+    caseStudy: {
+      background: '公司产品线丰富，但每款产品宣传物料风格不统一，影响品牌一致性',
+      problem: '设计重复劳动多，产出效率低，品牌视觉缺乏统一规范',
+      solution: '建立产品视觉模板体系，统一背景、光影、排版规范，实现快速复用',
+      result: '新产品宣传物料产出效率提升50%，品牌视觉一致性显著改善'
+    }
   },
   {
     id: 'preset-3', cat: 'space', catLabel: '展陈空间',
-    title: '展会效果图 · 方案一', desc: '行业展会展台 3D 渲染效果图，整体空间规划与视觉呈现',
+    title: '北京供热展 · 全案视觉统筹', 
+    desc: '从展台设计到物料落地的全链路展会视觉方案，帮助客户在行业展会中脱颖而出',
     type: 'image', src: 'portfolio/images/展会效果图1.png', wide: true,
-    meta: ['3D 渲染', '展会设计']
+    meta: ['展会全案', '3D渲染'],
+    caseStudy: {
+      background: '客户参加年度行业展会，需要在众多竞争对手中吸引目标客户注意力',
+      problem: '往届展会视觉缺乏亮点，展台人流和询盘量不理想',
+      solution: '统筹展台3D设计、宣传物料、产品展示全链路视觉，打造沉浸式品牌体验',
+      result: '展会期间展台人流明显增加，客户品牌辨识度在同行中显著提升'
+    }
   },
   {
     id: 'preset-4', cat: 'space', catLabel: '展陈空间',
-    title: '展会效果图 · 方案二', desc: '展台细节渲染，材质灯光与品牌元素融合',
+    title: '济南自动化展 · 空间视觉设计', 
+    desc: '优化展台空间布局与视觉动线，让参观者在30秒内理解客户核心价值',
     type: 'image', src: 'portfolio/images/展会效果图2.png', wide: false,
-    meta: ['3D 渲染', '展会设计']
+    meta: ['空间设计', '视觉动线'],
+    caseStudy: {
+      background: '展会空间有限，需要在有限面积内最大化品牌展示效果',
+      problem: '展台布局混乱，参观者难以快速获取关键信息',
+      solution: '重新规划参观动线，设计层次分明的展示区域，突出核心产品与技术优势',
+      result: '参观者停留时间延长，销售团队反馈有效询盘数量提升'
+    }
   },
   {
     id: 'preset-5', cat: 'space', catLabel: '展陈空间',
-    title: '展会效果图 · 方案三', desc: '多角度展台渲染，展示空间层次感与参观动线',
+    title: '多场景展会视觉系统', 
+    desc: '建立可复用的展会视觉组件库，适配不同尺寸和类型的展会场景',
     type: 'image', src: 'portfolio/images/展会效果图3.png', wide: false,
-    meta: ['3D 渲染', '展会设计']
+    meta: ['视觉系统', '组件化'],
+    caseStudy: {
+      background: '客户每年参加多场不同规模的展会，需要灵活适配各种展位尺寸',
+      problem: '每次展会都需要重新设计，成本高且风格难以统一',
+      solution: '建立模块化视觉组件库，核心元素可灵活组合适配不同场景',
+      result: '展会视觉设计周期缩短60%，多场次品牌一致性得到保障'
+    }
   },
   {
     id: 'preset-6', cat: 'video', catLabel: '视频制作',
-    title: '双球阀产品宣传片', desc: '工业阀门产品宣传视频，策划拍摄剪辑全流程独立完成',
+    title: '双球阀产品宣传片 · 全案制作', 
+    desc: '从策划到成片的完整产品视频，帮助客户在官网和展会中直观展示产品价值',
     type: 'video', src: 'portfolio/videos/双球阀.mp4', wide: true,
-    meta: ['MP4', '产品宣传']
+    meta: ['产品视频', '全流程'],
+    caseStudy: {
+      background: '客户需要一款能够在线上线下同时使用的核心产品展示视频',
+      problem: '产品技术复杂，静态图片难以传达核心优势和使用场景',
+      solution: '策划产品应用场景脚本，独立完成拍摄、剪辑、调色全流程制作',
+      result: '视频成为销售团队核心展示工具，客户官网产品页停留时间显著提升'
+    }
   },
   {
     id: 'preset-7', cat: 'video', catLabel: '视频制作',
-    title: 'CPT100 产品宣传片', desc: '智能传感器产品宣传视频，突出技术参数与应用场景',
+    title: 'CPT100 传感器 · 技术可视化', 
+    desc: '将复杂的技术参数转化为直观的视觉语言，降低客户理解门槛',
     type: 'video', src: 'portfolio/videos/CPT100.mp4', wide: false,
-    meta: ['MP4', '产品宣传']
+    meta: ['技术视频', '可视化'],
+    caseStudy: {
+      background: '传感器产品技术参数复杂，普通客户难以理解产品优势',
+      problem: '技术文档过于专业，销售团队难以在短时间内向客户传达价值',
+      solution: '将核心技术参数转化为可视化动画，配合实际应用场景展示',
+      result: '销售团队反馈客户理解度提升，技术沟通成本明显降低'
+    }
   },
   {
     id: 'preset-8', cat: 'video', catLabel: '视频制作',
-    title: 'WAC710N 产品宣传片', desc: '无线通信模块产品视频，展示产品外观与核心功能',
+    title: 'WAC710N 通信模块 · 产品展示', 
+    desc: '突出产品外观设计与核心功能，打造适合多渠道传播的产品展示内容',
     type: 'video', src: 'portfolio/videos/WAC710N.mp4', wide: false,
-    meta: ['MP4', '产品宣传']
+    meta: ['产品展示', '多渠道'],
+    caseStudy: {
+      background: '新产品上市，需要一套完整的视觉展示内容支持销售和推广',
+      problem: '产品外观精致但缺乏高质量的展示素材，影响推广效果',
+      solution: '制作专业产品展示视频，突出设计细节和核心功能亮点',
+      result: '视频成为产品发布会和线上推广的核心素材，客户反馈展示效果专业'
+    }
   }
 ];
 
@@ -1344,20 +1384,21 @@ function renderWorks() {
   const filtered = getFilteredWorks();
   grid.innerHTML = filtered.map((work, idx) => createWorkCard(work, idx)).join('');
   grid.querySelectorAll('video').forEach(v => {
-    v.addEventListener('loadeddata', () => { v.currentTime = 0.001; });
+    v.addEventListener('loadeddata', () => { v.currentTime = 0.1; });
   });
 }
 
 function createWorkCard(work, idx) {
   const isVideo = work.type === 'video';
   const thumb = isVideo
-    ? `<video src="${work.src}#t=0.001" muted preload="metadata"></video><div class="work-thumb-video-badge">▶</div>`
+    ? `<video src="${work.src}?v=2#t=0.1" muted preload="metadata"></video><div class="work-thumb-video-badge">▶</div>`
     : `<img src="${work.src}" alt="${work.title}" loading="lazy">`;
   const wideClass = work.wide ? 'wide' : '';
   const metaHtml = work.meta ? work.meta.map(m => `<span>● ${m}</span>`).join('') : '';
 
+  const resultHtml = work.caseStudy ? `<div class="work-result">${work.caseStudy.result}</div>` : '';
   return `
-    <div class="work-card ${wideClass} reveal" data-cat="${work.cat}" onclick="openLb(${idx})">
+    <div class="work-card ${wideClass} reveal" data-cat="${work.cat}" onclick="openCaseStudy(${idx})">
       <div class="work-thumb">
         ${thumb}
         <div class="work-overlay">
@@ -1365,13 +1406,14 @@ function createWorkCard(work, idx) {
             <div class="cat">${work.catLabel}</div>
             <div class="title">${work.title}</div>
           </div>
-          <div class="work-overlay-btn">${isVideo ? '▶' : '↗'}</div>
+          <div class="work-overlay-btn">查看详情</div>
         </div>
       </div>
       <div class="work-body">
         <div class="work-cat">${work.catLabel}</div>
         <div class="work-title">${work.title}</div>
         <div class="work-desc">${work.desc}</div>
+        ${resultHtml}
         <div class="work-meta">${metaHtml}</div>
       </div>
     </div>
@@ -1393,47 +1435,59 @@ function renderSourceFiles() {
 }
 
 /* ═══════════════════════════════════════════════
-   LIGHTBOX
+   CASE STUDY MODAL
 ═════════════════════════════════════════════════ */
-function openLb(idx) {
-  lbFiltered = getFilteredWorks();
-  lbIndex = idx;
-  updateLb();
-  document.getElementById('lightbox').classList.add('active');
+function openCaseStudy(idx) {
+  const work = allWorks[idx];
+  if (!work) return;
+  const media = document.getElementById('csMedia');
+  if (work.type === 'video') {
+    media.innerHTML = `<video src="${work.src}" controls autoplay style="max-width:100%;max-height:50vh;"></video>`;
+  } else {
+    media.innerHTML = `<img src="${work.src}" alt="${work.title}" style="max-width:100%;max-height:50vh;">`;
+  }
+  document.getElementById('csCat').textContent = work.catLabel;
+  document.getElementById('csTitle').textContent = work.title;
+  
+  let contentHtml = `<div class="work-desc" style="margin-bottom:20px;">${work.desc}</div>`;
+  if (work.caseStudy) {
+    contentHtml += `
+      <div style="border-top:1px solid var(--border);padding-top:20px;">
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">项目背景</div>
+          <div style="font-size:14px;color:var(--text-secondary);line-height:1.7;">${work.caseStudy.background}</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">核心问题</div>
+          <div style="font-size:14px;color:var(--text-secondary);line-height:1.7;">${work.caseStudy.problem}</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">解决方案</div>
+          <div style="font-size:14px;color:var(--text-secondary);line-height:1.7;">${work.caseStudy.solution}</div>
+        </div>
+        <div style="background:rgba(232,184,109,0.08);border-radius:8px;padding:16px;border-left:3px solid var(--accent);">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">最终结果</div>
+          <div style="font-size:14px;color:var(--text);line-height:1.7;font-weight:500;">${work.caseStudy.result}</div>
+        </div>
+      </div>
+    `;
+  }
+  document.getElementById('csContent').innerHTML = contentHtml;
+  
+  document.getElementById('caseStudyModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
-function updateLb() {
-  const work = lbFiltered[lbIndex];
-  if (!work) return;
-  const media = document.getElementById('lbMedia');
-  if (work.type === 'video') {
-    media.innerHTML = `<video src="${work.src}" controls autoplay style="max-width:100%;max-height:60vh;"></video>`;
-  } else {
-    media.innerHTML = `<img src="${work.src}" alt="${work.title}" style="max-width:100%;max-height:60vh;">`;
-  }
-  document.getElementById('lbCat').textContent = work.catLabel;
-  document.getElementById('lbTitle').textContent = work.title;
-  document.getElementById('lbDesc').textContent = work.desc;
-}
-
-function closeLb() {
-  document.getElementById('lightbox').classList.remove('active');
+function closeCaseStudy() {
+  document.getElementById('caseStudyModal').classList.remove('active');
   document.body.style.overflow = '';
-  const vid = document.querySelector('#lbMedia video');
+  const vid = document.querySelector('#csMedia video');
   if (vid) vid.pause();
 }
 
-function navLb(dir) {
-  lbIndex = (lbIndex + dir + lbFiltered.length) % lbFiltered.length;
-  updateLb();
-}
-
 document.addEventListener('keydown', e => {
-  if (!document.getElementById('lightbox').classList.contains('active')) return;
-  if (e.key === 'Escape') closeLb();
-  if (e.key === 'ArrowLeft') navLb(-1);
-  if (e.key === 'ArrowRight') navLb(1);
+  if (!document.getElementById('caseStudyModal').classList.contains('active')) return;
+  if (e.key === 'Escape') closeCaseStudy();
 });
 
 /* ═══════════════════════════════════════════════
@@ -1460,10 +1514,9 @@ function setupReveal() {
         entry.target.querySelectorAll('.skill-fill').forEach(bar => {
           bar.style.width = bar.dataset.w + '%';
         });
-        // Animate stat counter
+        // Animate stat counter (re-trigger on every scroll-into-view)
         const statNum = entry.target.querySelector('.stat-num');
-        if (statNum && !statNum.dataset.animated) {
-          statNum.dataset.animated = 'true';
+        if (statNum) {
           animateCounter(statNum);
         }
       }
@@ -1473,22 +1526,31 @@ function setupReveal() {
 }
 
 function animateCounter(el) {
-  const text = el.textContent;
+  const text = el.dataset.targetText || el.textContent;
+  el.dataset.targetText = text;
   const match = text.match(/([\d.]+)/);
   if (!match) return;
   const target = parseFloat(match[1]);
   const suffix = text.replace(match[1], '');
   const isFloat = text.includes('.');
-  const duration = 1500;
+  const duration = Math.min(1500, Math.max(600, target * 180));
   const start = performance.now();
+
+  if (el.dataset.raf) cancelAnimationFrame(+el.dataset.raf);
+
   function tick(now) {
     const progress = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = target * eased;
     el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
-    if (progress < 1) requestAnimationFrame(tick);
+    if (progress < 1) {
+      el.dataset.raf = requestAnimationFrame(tick);
+    } else {
+      el.textContent = text;
+      delete el.dataset.raf;
+    }
   }
-  requestAnimationFrame(tick);
+  el.dataset.raf = requestAnimationFrame(tick);
 }
 
 /* ═══════════════════════════════════════════════
@@ -1563,36 +1625,104 @@ function copyToClipboard(text, label) {
 /* ═══════════════════════════════════════════════
    PARTICLES
 ═════════════════════════════════════════════════ */
-(function() {
-  const container = document.getElementById('particles');
-  if (!container) return;
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (12 + Math.random() * 16) + 's';
-    p.style.animationDelay = Math.random() * 12 + 's';
-    const size = 1 + Math.random() * 3;
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-    p.style.opacity = 0.2 + Math.random() * 0.5;
-    // Random drift positions for fluid motion
-    const drifts = [];
-    for (let j = 0; j < 4; j++) {
-      drifts.push((Math.random() - 0.5) * 160 + 'px');
-    }
-    p.style.setProperty('--drift-1', drifts[0]);
-    p.style.setProperty('--drift-2', drifts[1]);
-    p.style.setProperty('--drift-3', drifts[2]);
-    p.style.setProperty('--drift-4', drifts[3]);
-    container.appendChild(p);
+function initParticles() {
+  const canvas = document.getElementById('particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w, h;
+  const particles = [];
+  const PARTICLE_COUNT = 38;
+  const CONNECTION_DIST = 110;
+  const MOUSE_RADIUS = 180;
+  let mouse = { x: null, y: null };
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
   }
-})();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.size = Math.random() * 1.5 + 0.8;
+      this.alpha = Math.random() * 0.35 + 0.25;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+      if (mouse.x !== null) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < MOUSE_RADIUS) {
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          this.vx += dx * force * 0.0004;
+          this.vy += dy * force * 0.0004;
+        }
+      }
+      this.vx *= 0.995;
+      this.vy *= 0.995;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(232,184,109,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function connect() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < CONNECTION_DIST) {
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.1;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(232,184,109,${alpha})`;
+          ctx.lineWidth = 0.4;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    for (let p of particles) { p.update(); p.draw(); }
+    connect();
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+  resize();
+  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+  animate();
+}
 
 /* ═══════════════════════════════════════════════
    INIT
 ═════════════════════════════════════════════════ */
 async function init() {
+  // Mouse glow tracking
+  document.addEventListener('mousemove', e => {
+    document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+    document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+  });
+
+  initParticles();
+
   // Load preset works immediately
   allWorks = [...PRESET_WORKS];
   renderWorks();
